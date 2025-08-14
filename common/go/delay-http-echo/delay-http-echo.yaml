@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delay-http-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delay-http-echo
+  template:
+    metadata:
+      labels:
+        app: delay-http-echo
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: delay-http-echo
+        image: delay-http-echo:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+            name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delay-http-echo
+  labels:
+    app: delay-http-echo
+spec:
+  selector:
+    app: delay-http-echo
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8080

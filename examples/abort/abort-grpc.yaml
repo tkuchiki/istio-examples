@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: abort-grpc
+  namespace: echo-grpc
+spec:
+  hosts:
+  - echo.echo-grpc.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: echo.echo-grpc.svc.cluster.local
+        port:
+          number: 7070
+    fault:
+      abort:
+        percentage:
+          value: 50
+        grpcStatus: UNAVAILABLE

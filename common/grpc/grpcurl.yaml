@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpcurl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpcurl
+  template:
+    metadata:
+      labels:
+        app: grpcurl
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: grpcurl
+        image: mygrpcurl:latest
+        command: ["/bin/sleep", "infinity"]
+        imagePullPolicy: IfNotPresent
